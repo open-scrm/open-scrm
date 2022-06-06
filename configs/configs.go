@@ -13,6 +13,7 @@ type Config struct {
 	Web      WebConfig    `yaml:"web"`
 	Redis    RedisConfig  `yaml:"redis"`
 	Mongo    MongoConfig  `yaml:"mongo"`
+	Kafka    KafkaConfig  `yaml:"kafka"`
 }
 
 type WebConfig struct {
@@ -37,6 +38,23 @@ type MongoConfig struct {
 	MaxPoolSize   uint64 `json:"maxPoolSize" yaml:"maxPoolSize"`
 	Timeout       int    `json:"timeout" yaml:"timeout"`
 	Database      string `json:"database" yaml:"database"`
+}
+
+type KafkaConfig struct {
+	Address string `json:"address" yaml:"address"`
+	Topics  struct {
+		DepartmentChangeEvent string `json:"departmentChangeEvent" yaml:"departmentChangeEvent"` // 部门变更事件
+		UserChangeEvent       string `json:"userChangeEvent" yaml:"userChangeEvent"`             // 员工变更事件
+	} `json:"topics" yaml:"topics"`
+	Groups struct {
+		DepartmentChangeEvent KafkaGroup `json:"departmentChangeEvent" yaml:"departmentChangeEvent"`
+		UserChangeEvent       KafkaGroup `json:"UserChangeEvent" yaml:"UserChangeEvent"`
+	}
+}
+
+type KafkaGroup struct {
+	Name      string `json:"name" yaml:"name"`
+	Partition int    `json:"partition" yaml:"partition"`
 }
 
 var lock sync.RWMutex
