@@ -28,12 +28,12 @@ func (c *Client) newTokenRequest(ctx context.Context) *resty.Request {
 	return c.r(ctx).SetQueryParam("access_token", AccessTokenFromContext(ctx))
 }
 
-func (c *Client) jsonDecode(resp *resty.Response, v Response) error {
+func (c *Client) jsonDecode(resp *resty.Response, v response) error {
 	if err := json.Unmarshal(resp.Body(), v); err != nil {
 		return err
 	}
 	if v.ErrCode() != 0 {
-		return &response{Errmsg: v.ErrMsg(), Errcode: v.ErrCode()}
+		return &Response{Errmsg: v.ErrMsg(), Errcode: v.ErrCode()}
 	}
 	return nil
 }

@@ -6,10 +6,10 @@ import (
 )
 
 type DepartmentListResponse struct {
-	*response
+	*Response
 
 	Department []struct {
-		Id               int      `json:"id"`
+		Id               uint32   `json:"id"`
 		Name             string   `json:"name"`
 		NameEn           string   `json:"name_en"`
 		DepartmentLeader []string `json:"department_leader"`

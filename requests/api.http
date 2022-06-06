@@ -1,0 +1,17 @@
+### 同步组织架构
+POST {{ host }}/api/v1/addressbook/sync
+Content-Type: application/json
+
+{}
+
+### 更新租户信息
+POST {{ host }}/api/v1/config/talent
+Content-Type: application/json
+
+{
+  "corpId": "ww48fb21eab5cc8802",
+  "agentId": "1000005",
+  "addressBookSecret": "WiiJ3xygp_6dbL0ZbxFjtv4bDCUtLBGdRIEfKWblJYY",
+  "appSecret": "5CJPjplEV9CWnF7J8tOmE4Toxy8xaTJkxKMV7kdqXqo",
+  "externalContactSecret": "abcd"
+}

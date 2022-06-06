@@ -8,9 +8,15 @@ type Response struct {
 	Message string `json:"message"`
 }
 
-func SendOK(ctx *gin.Context, data interface{}) {
+func SendOK(ctx *gin.Context, data ...interface{}) {
+	var obj interface{}
+	if len(data) == 0 {
+		obj = struct{}{}
+	} else {
+		obj = data[0]
+	}
 	ctx.JSON(200, &Response{
-		Data: data,
+		Data: obj,
 	})
 }
 

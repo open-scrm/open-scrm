@@ -29,6 +29,7 @@ start:
 		skip++
 		goto start
 	}
+	function = strings.TrimPrefix(function, "github.com/open-scrm/open-scrm/")
 	return function, file, line
 }
 
@@ -61,7 +62,7 @@ func (t *tracingFormat) Format(e *logrus.Entry) ([]byte, error) {
 	if !ok {
 		return t.children.Format(e)
 	}
-	data["trace-id"] = jctx.TraceID()
+	data["trace-id"] = jctx.TraceID().String()
 	e.Data = data
 	return t.children.Format(e)
 }

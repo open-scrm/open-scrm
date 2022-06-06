@@ -7,10 +7,11 @@ import (
 )
 
 func Logger() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		// TODO:: logger.
-		ctx.Next()
-	}
+	return gin.Logger()
+	//return func(ctx *gin.Context) {
+	//	// TODO:: logger.
+	//	ctx.Next()
+	//}
 }
 
 func Trace() gin.HandlerFunc {

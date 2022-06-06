@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/open-scrm/open-scrm/configs"
 	"github.com/open-scrm/open-scrm/internal/controller/addressbook"
+	"github.com/open-scrm/open-scrm/internal/controller/configcontroller"
 	"github.com/open-scrm/open-scrm/lib/log"
 	"net"
 	"net/http"
@@ -25,8 +26,15 @@ func RunHttpServer(ctx context.Context) error {
 
 	api := g.Group("/api/v1")
 	{
-		addressBook := api.Group("/addressbook")
-		addressBook.POST("/sync", addressbook.SyncCorpStructure)
+		{
+			addressBook := api.Group("/addressbook")
+			addressBook.POST("/sync", addressbook.SyncCorpStructure)
+		}
+
+		{
+			config := api.Group("/config")
+			config.POST("/talent", configcontroller.UpdateTalentInfo)
+		}
 	}
 
 	httpServer = &http.Server{
@@ -41,5 +49,8 @@ func RunHttpServer(ctx context.Context) error {
 }
 
 func StopHttpServer(ctx context.Context) error {
-	return httpServer.Shutdown(ctx)
+	if httpServer != nil {
+		return httpServer.Shutdown(ctx)
+	}
+	return nil
 }

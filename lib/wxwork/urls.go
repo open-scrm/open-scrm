@@ -19,4 +19,6 @@ const (
 // 部门管理
 const (
 	departmentList = `https://qyapi.weixin.qq.com/cgi-bin/department/list`
+	userListByDept = `https://qyapi.weixin.qq.com/cgi-bin/user/simplelist`
+	getUser        = `https://qyapi.weixin.qq.com/cgi-bin/user/get`
 )
