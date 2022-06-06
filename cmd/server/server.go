@@ -1,9 +1,11 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"github.com/fsnotify/fsnotify"
 	"github.com/open-scrm/open-scrm/configs"
+	"github.com/open-scrm/open-scrm/internal"
 	"github.com/open-scrm/open-scrm/internal/global"
 	"github.com/opentracing/opentracing-go"
 	"github.com/sirupsen/logrus"
@@ -11,13 +13,29 @@ import (
 	"github.com/uber/jaeger-client-go/config"
 	"github.com/uber/jaeger-lib/metrics/prometheus"
 	"github.com/urfave/cli/v2"
+	"os"
+	"os/signal"
 )
 
 var (
 	ServeCommand = &cli.Command{
 		Name:        "serve",
 		Description: "run open-scrm http server",
-		Action:      run,
+		Action: func(c *cli.Context) error {
+			var e error
+			gracefulShutdown(func(ctx context.Context) {
+				c.Context = ctx
+				if err := run(c); err != nil {
+					e = err
+					return
+				}
+			}, func() {
+				if err := internal.StopHttpServer(c.Context); err != nil {
+					e = err
+				}
+			})
+			return e
+		},
 	}
 
 	log = logrus.New().WithField("module", "server")
@@ -48,7 +66,7 @@ func run(ctx *cli.Context) error {
 	})
 	viper.WatchConfig()
 
-	if err := global.InitGlobal(ctx.Context, &configs.Get().Redis); err != nil {
+	if err := global.InitGlobal(ctx.Context, configs.Get()); err != nil {
 		return err
 	}
 
@@ -63,7 +81,29 @@ func run(ctx *cli.Context) error {
 	opentracing.SetGlobalTracer(tracer)
 	defer closeTracer.Close()
 
-	return nil
-	//server := server2.NewSever()
-	//return server.Run(ctx.Context)
+	return internal.RunHttpServer(ctx.Context)
+}
+
+func gracefulShutdown(process func(ctx context.Context), callbacks ...func()) {
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go func() {
+		process(ctx)
+		cancel()
+	}()
+	sig := make(chan os.Signal)
+	signal.Notify(sig, os.Kill, os.Interrupt)
+
+	defer func() {
+		for _, fn := range callbacks {
+			fn()
+		}
+	}()
+
+	select {
+	case <-ctx.Done():
+		cancel()
+	case <-sig:
+		cancel()
+	}
 }

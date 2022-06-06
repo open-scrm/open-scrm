@@ -6,9 +6,15 @@ import (
 	"github.com/open-scrm/open-scrm/configs"
 	"github.com/open-scrm/open-scrm/internal/controller/addressbook"
 	"github.com/open-scrm/open-scrm/lib/log"
+	"net"
+	"net/http"
 )
 
-func RunHttpServer(ctx context.Context) {
+var (
+	httpServer *http.Server
+)
+
+func RunHttpServer(ctx context.Context) error {
 	config := configs.Get()
 	_ = config
 
@@ -22,4 +28,18 @@ func RunHttpServer(ctx context.Context) {
 		addressBook := api.Group("/addressbook")
 		addressBook.POST("/sync", addressbook.SyncCorpStructure)
 	}
+
+	httpServer = &http.Server{
+		Addr:    config.Web.Addr,
+		Handler: g,
+		BaseContext: func(listener net.Listener) context.Context {
+			return ctx
+		},
+	}
+
+	return httpServer.ListenAndServe()
+}
+
+func StopHttpServer(ctx context.Context) error {
+	return httpServer.Shutdown(ctx)
 }
