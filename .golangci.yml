@@ -1,0 +1,50 @@
+run:
+  issues-exit-code: 1
+  tests: false
+  modules-download-mode: readonly
+  allow-parallel-runners: false
+
+linters-settings:
+  golint:
+    min-confidence: 0
+  misspell:
+    locale: US
+  dupl:
+    threshold: 100
+  funlen:
+    lines: 250
+    statements: 200
+
+  gocritic:
+    disabled-checks:
+      - elseif
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - ineffassign
+    - staticcheck
+    - bodyclose
+    - durationcheck
+    #    - errname
+    - errorlint
+    - exportloopref
+    - forcetypeassert
+    - funlen
+    - gocritic
+    - goimports
+    # - gomnd
+    - gomodguard
+    - lll
+    - makezero
+    - predeclared
+    - revive
+
+service:
+  golangci-lint-version: v1.42.0
+
+issues:
+  new: true
+  new-from-rev: 'remotes/origin/master'

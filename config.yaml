@@ -1,0 +1,31 @@
+web:
+  # 运行端口
+  addr: 127.0.0.1:8080
+  # 模板文件夹
+  view: web/view/*/*.gohtml
+  # 静态文件地址
+  static: web/static
+  domain: "http://openscrm.localhost:8080"
+
+
+redis:
+  addr: localhost:6379
+  password: password
+  db: 0
+
+mongo:
+  username: admin
+  password: password
+  host: localhost:27017
+  adminDatabase: admin
+
+#############################       以下是租户配置      #################################################
+# http://localhost:8080/oauth/callback?code=g8zmcuswZ9RoyWesrSVpr3pK3r9RSowDd7m1-0OCW8s&state=0&appid=ww48fb21eab5cc8802
+talent:
+  id: demo
+  corpId: ww48fb21eab5cc8802
+  agentId: '1000005'
+  appSecret: WiiJ3xygp_6dbL0ZbxFjtv4bDCUtLBGdRIEfKWblJYY           # 应用秘钥
+  addressBookSecret: 5CJPjplEV9CWnF7J8tOmE4Toxy8xaTJkxKMV7kdqXqo   # 通讯录秘钥
+  externalContactSecret:                                           # 外部联系人秘钥
+  db: demo                                                         # 分库名字
