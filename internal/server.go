@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/open-scrm/open-scrm/configs"
 	"github.com/open-scrm/open-scrm/internal/controller/addressbook"
+	"github.com/open-scrm/open-scrm/internal/controller/callbaclcontroller"
 	"github.com/open-scrm/open-scrm/internal/controller/configcontroller"
 	"github.com/open-scrm/open-scrm/lib/log"
 	"net"
@@ -36,6 +37,8 @@ func RunHttpServer(ctx context.Context) error {
 			config.POST("/talent", configcontroller.UpdateTalentInfo)
 		}
 	}
+
+	g.Any("/callback/addressbook", callbaclcontroller.AddressBookCallback)
 
 	httpServer = &http.Server{
 		Addr:    config.Web.Addr,

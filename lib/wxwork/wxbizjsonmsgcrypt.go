@@ -1,8 +1,7 @@
-package main
+package wxwork
 
 import (
 	"bytes"
-	"container/list"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/sha1"
@@ -10,56 +9,11 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"math/rand"
 	"net/http"
 	"sort"
 	"strings"
 )
-
-func main() {
-	http.ListenAndServe(":9090", new(x))
-}
-
-var _list = list.New()
-
-type x struct{}
-
-func (x x) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if strings.Contains(r.RequestURI, "pull") {
-		x.pull(w, r)
-		return
-	}
-	if http.MethodGet == r.Method {
-		c := NewWXBizMsgCrypt("B61HCDBO4N", "IivlYoyxpK8ErIQzokaV1DlXanTIpndSdL2DxPeZOzR", "ww48fb21eab5cc8802")
-		data, err := c.VerifyRequest(r)
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		fmt.Println(string(data))
-		w.Write(data)
-	} else {
-		h := make(map[string]interface{})
-		h["method"] = r.Method
-		h["content-type"] = r.Header.Get("Content-Type")
-		h["data"], _ = ioutil.ReadAll(r.Body)
-		_list.PushBack(h)
-	}
-}
-
-func (x) pull(w http.ResponseWriter, r *http.Request) {
-	e := _list.Front()
-	if e != nil {
-		_list.Remove(e)
-		rr := e.Value.(map[string]interface{})
-		data, _ := json.Marshal(rr)
-		w.Write(data)
-	} else {
-		w.WriteHeader(400)
-	}
-}
 
 const letterBytes = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -85,12 +39,12 @@ type CryptError struct {
 	ErrMsg  string
 }
 
-func NewCryptError(errCode int, errMsg string) *CryptError {
-	return &CryptError{ErrCode: errCode, ErrMsg: errMsg}
-}
-
 func (c CryptError) Error() string {
 	return fmt.Sprintf("[%d] %s", c.ErrCode, c.ErrMsg)
+}
+
+func NewCryptError(errCode int, errMsg string) *CryptError {
+	return &CryptError{ErrCode: errCode, ErrMsg: errMsg}
 }
 
 type WxBizMsgReceive struct {
@@ -270,7 +224,7 @@ func (c *WXBizMsgCrypt) ParsePlainText(plaintext []byte) ([]byte, uint32, []byte
 	return random, msg_len, msg, receiver_id, nil
 }
 
-func (c *WXBizMsgCrypt) VerifyRequest(r *http.Request) ([]byte, error) {
+func (c *WXBizMsgCrypt) VerifyRequest(r *http.Request) ([]byte, *CryptError) {
 	sig := r.URL.Query().Get("msg_signature")
 	timestamp := r.URL.Query().Get("timestamp")
 	nonce := r.URL.Query().Get("nonce")
@@ -297,7 +251,7 @@ func (c *WXBizMsgCrypt) VerifyRequest(r *http.Request) ([]byte, error) {
 	return msg, nil
 }
 
-func (c *WXBizMsgCrypt) EncryptMsg(replyMsg, timestamp, nonce string) ([]byte, *CryptError) {
+func (c *WXBizMsgCrypt) EncryptMsg(replyMsg, timestamp, nonce string) ([]byte, error) {
 	rand_str := c.randString(16)
 	var buffer bytes.Buffer
 	buffer.WriteString(rand_str)

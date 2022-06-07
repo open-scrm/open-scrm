@@ -15,3 +15,11 @@ Content-Type: application/json
   "appSecret": "5CJPjplEV9CWnF7J8tOmE4Toxy8xaTJkxKMV7kdqXqo",
   "externalContactSecret": "abcd"
 }
+
+### 通讯录变更回调
+POST {{ host }}/callback/addressbook
+Content-Type: text/xml
+
+###
+GET http://localhost:9090/a/b/c?a=1
+Content-Type: application/json
