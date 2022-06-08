@@ -19,4 +19,5 @@ require (
 	go.clearcode.cn/wx/xrequest v1.0.1
 	go.mongodb.org/mongo-driver v1.9.1
 	gopkg.in/resty.v1 v1.12.0
+	gopkg.in/yaml.v3 v3.0.0
 )

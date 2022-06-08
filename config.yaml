@@ -23,6 +23,8 @@ mongo:
   poolSize: 10
   maxPoolSize: 100
 
+
+
 #############################       以下是租户配置      #################################################
 # http://localhost:8080/oauth/callback?code=g8zmcuswZ9RoyWesrSVpr3pK3r9RSowDd7m1-0OCW8s&state=0&appid=ww48fb21eab5cc8802
 talent:

@@ -73,12 +73,14 @@ func (t *TalentService) SetTalentInfo(ctx context.Context, talent model.Talent) 
 	}
 	update := bson.M{
 		"$set": bson.M{
-			"corpId":                talent.CorpId,
-			"agentId":               talent.AgentId,
-			"db":                    talent.Db,
-			"addressBookSecret":     talent.AddressBookSecret,
-			"appSecret":             talent.AppSecret,
-			"externalContactSecret": talent.AppSecret,
+			"corpId":                            talent.CorpId,
+			"agentId":                           talent.AgentId,
+			"db":                                talent.Db,
+			"addressBookSecret":                 talent.AddressBookSecret,
+			"appSecret":                         talent.AppSecret,
+			"externalContactSecret":             talent.AppSecret,
+			"addressBookCallbackToken":          talent.AddressBookCallbackToken,
+			"addressBookCallbackAesEncodingKey": talent.AddressBookCallbackAesEncodingKey,
 		},
 		"$setOnInsert": bson.M{
 			"_id": defaultTalentId,

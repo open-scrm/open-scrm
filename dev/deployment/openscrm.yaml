@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openscrm
+  labels:
+    app: openscrm
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: openscrm
+      labels:
+        app: openscrm
+    spec:
+      containers:
+        - name: openscrm
+          image: hub.mrj.com:30080/openscrm/openscrm
+          imagePullPolicy: Always
+          env:
+            - name: GIN_MODE
+              value: release
+          ports:
+            - containerPort: 8080
+              name: http
+          command:
+            - /app
+            - serve
+          volumeMounts:
+            - mountPath: /config.yaml
+              subPath: config.yaml
+              name: openscrm-config
+      volumes:
+        - name: openscrm-config
+          configMap:
+            name: openscrm-config
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: openscrm
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openscrm-config
+data:
+  config.yaml: |
+    web:
+        # 运行端口
+        addr: 0.0.0.0:8080
+    redis:
+      addr: mid-object-tag2-ms.postgres:6379
+      password: password
+      db: 0
+    mongo:
+      username: admin
+      password: password
+      host: mongodb://mid-object-tag2-ms.postgres:27017
+      adminDatabase: admin
+      database: openscrm
+      timeout: 30
+      poolSize: 10
+      maxPoolSize: 100
+    kafka:
+      address: kafka.kafka:9092
+      topics:
+        departmentChangeEvent: departmentChangeEvent
+        userChangeEvent: userChangeEvent
+        tagChangeEvent: tagChangeEvent
+        batchJobResult: batchJobResult
+      groups:
+        departmentChangeEvent: 
+          name: departmentChangeEvent
+          partition: 1
+        UserChangeEvent: 
+          name: UserChangeEvent
+          partition: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openscrm
+spec:
+  selector:
+    app: openscrm
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: openscrm
+spec:
+  rules:
+    - host: work.mrj.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: openscrm
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+
+

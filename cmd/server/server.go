@@ -13,6 +13,7 @@ import (
 	"github.com/uber/jaeger-client-go/config"
 	"github.com/uber/jaeger-lib/metrics/prometheus"
 	"github.com/urfave/cli/v2"
+	"gopkg.in/yaml.v3"
 	"os"
 	"os/signal"
 )
@@ -42,10 +43,6 @@ var (
 )
 
 func run(ctx *cli.Context) error {
-	viper.SetDefault("web.addr", "127.0.0.1:8080")
-	viper.SetDefault("web.static", "web/static")
-	viper.SetDefault("web.view", "web/view/*/*.gohtml")
-
 	viper.SetConfigName("config") // name of config file (without extension)
 	viper.SetConfigType("yaml")   // REQUIRED if the config file does not have the extension in the name
 	viper.AddConfigPath(".")      // optionally look for config in the working directory
@@ -69,6 +66,10 @@ func run(ctx *cli.Context) error {
 	if err := global.InitGlobal(ctx.Context, configs.Get()); err != nil {
 		return err
 	}
+
+	data, _ := yaml.Marshal(configs.Get())
+	fmt.Println("-- 加载配置信息 --")
+	fmt.Println(string(data))
 
 	metricsFactory := prometheus.New()
 	tracer, closeTracer, err := config.Configuration{ServiceName: "open-scrm"}.

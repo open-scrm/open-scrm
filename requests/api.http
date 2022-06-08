@@ -13,7 +13,9 @@ Content-Type: application/json
   "agentId": "1000005",
   "addressBookSecret": "WiiJ3xygp_6dbL0ZbxFjtv4bDCUtLBGdRIEfKWblJYY",
   "appSecret": "5CJPjplEV9CWnF7J8tOmE4Toxy8xaTJkxKMV7kdqXqo",
-  "externalContactSecret": "abcd"
+  "externalContactSecret": "abcd",
+  "addressBookCallbackToken": "B61HCDBO4N",
+  "addressBookCallbackAesEncodingKey": "IivlYoyxpK8ErIQzokaV1DlXanTIpndSdL2DxPeZOzR"
 }
 
 ### 通讯录变更回调
@@ -23,3 +25,9 @@ Content-Type: text/xml
 ###
 GET http://localhost:9090/a/b/c?a=1
 Content-Type: application/json
+
+###
+POST http://localhost:8080/callback/addressbook?msg_signature=827d01b673f7ae109bea6cd713e5ce0c1c66ae40&timestamp=1654612061&nonce=1653862028
+Content-Type: text/xml
+
+<xml><ToUserName><![CDATA[ww48fb21eab5cc8802]]></ToUserName><Encrypt><![CDATA[zDJ3vIq9Rg6Sz7k3/wg6osjwapw1/U9kgJ9OtWdrJ/6BxaXTDvg671hR6i1VdpiSLIkryLcruhDgf74ZOBkwTNYBnWXMNqSTTF7eX0F70gh7bPBK4A5GamQFS5dIeOzDLygmz1xeHXMHJGZdBX+21x3U7u29KmtFOcmd5cq5yotl4mDjST4t5EhoxN2Ic06sLGu6jra/PAcIXyJ78/H7hzDpT91tD1IYvdnfpeZM0K9/ehzqtREzg9jvrENA+bbKbxZ+DhMFwYXHNDnjfkCt9NHs0xR9e/8y1UXGFVd7YkcbSueiLXgPA8ZKvvO5wPcE/J53OzfbY8yO5zXjaBs1gtp7sD0kmIKHqUxCAdm7zfuoEf1RqclAMB8akpBA5rTb5WCMbszToRkS9UoN3b5LwyCKyFfXzPrB3IY5DbS0XEvQt5cwy5gnBzEtTcP+HdcaJuSyBIThhxU4WQF0od9WRPm2iFmB0c39rH7k02syaNX4U7R9yQmkCKfMO0YhV3+09919JZxuv5zhxzSrr7sP+oMSTcpbUrEUqHybeWxW3qY=]]></Encrypt><AgentID><![CDATA[]]></AgentID></xml>

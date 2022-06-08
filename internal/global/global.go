@@ -5,6 +5,7 @@ import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/go-redis/redis/v8"
 	"github.com/open-scrm/open-scrm/configs"
+	"github.com/open-scrm/open-scrm/internal/event/publish"
 	"github.com/open-scrm/open-scrm/lib/wxwork"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -21,6 +22,11 @@ var (
 	mongoDriver *mongo.Client
 
 	snowflakeNode *snowflake.Node
+
+	addressBookUserPublisher           *publish.AddressBookUserPublisher
+	addressBookDeptPublisher           *publish.AddressBookDeptPublisher
+	addressBookTagPublisher            *publish.AddressBookTagPublisher
+	addressBookBatchJobResultPublisher *publish.AddressBookBatchJobResultPublisher
 )
 
 func InitGlobal(ctx context.Context, conf *configs.Config) error {
@@ -72,6 +78,27 @@ func InitGlobal(ctx context.Context, conf *configs.Config) error {
 		snowflakeNode, _ = snowflake.NewNode(1)
 	}
 
+	// kafka.
+	{
+		var err error
+		addressBookUserPublisher, err = publish.NewAddressBookUserPublisher(ctx, conf)
+		if err != nil {
+			return err
+		}
+		addressBookDeptPublisher, err = publish.NewAddressBookDeptPublisher(ctx, conf)
+		if err != nil {
+			return err
+		}
+		addressBookTagPublisher, err = publish.NewAddressBookTagPublisher(ctx, conf)
+		if err != nil {
+			return err
+		}
+		addressBookBatchJobResultPublisher, err = publish.NewAddressBookBatchJobResultPublisher(ctx, conf)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -89,4 +116,20 @@ func GetMongoDriver() *mongo.Client {
 
 func GetSnowflakeNode() *snowflake.Node {
 	return snowflakeNode
+}
+
+func GetAddressBookUserPublisher() *publish.AddressBookUserPublisher {
+	return addressBookUserPublisher
+}
+
+func GetAddressBookDeptPublisher() *publish.AddressBookDeptPublisher {
+	return addressBookDeptPublisher
+}
+
+func GetAddressBookTagPublisher() *publish.AddressBookTagPublisher {
+	return addressBookTagPublisher
+}
+
+func GetAddressBookBatchJobPublisher() *publish.AddressBookBatchJobResultPublisher {
+	return addressBookBatchJobResultPublisher
 }

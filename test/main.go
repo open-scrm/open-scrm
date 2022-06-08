@@ -14,11 +14,14 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"sort"
 	"strings"
 )
 
 func main() {
+	fmt.Println(os.Getenv("programdata"))
+	return
 	http.ListenAndServe(":9090", new(x))
 }
 

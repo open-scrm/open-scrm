@@ -45,11 +45,13 @@ type KafkaConfig struct {
 	Topics  struct {
 		DepartmentChangeEvent string `json:"departmentChangeEvent" yaml:"departmentChangeEvent"` // 部门变更事件
 		UserChangeEvent       string `json:"userChangeEvent" yaml:"userChangeEvent"`             // 员工变更事件
+		TagChangeEvent        string `json:"tagChangeEvent" yaml:"tagChangeEvent"`               // 成员标签变更通知
+		BatchJobResult        string `json:"batchJobResult" yaml:"batchJobResult"`               // 批量任务完成通知
 	} `json:"topics" yaml:"topics"`
 	Groups struct {
 		DepartmentChangeEvent KafkaGroup `json:"departmentChangeEvent" yaml:"departmentChangeEvent"`
 		UserChangeEvent       KafkaGroup `json:"UserChangeEvent" yaml:"UserChangeEvent"`
-	}
+	} `yaml:"groups"`
 }
 
 type KafkaGroup struct {

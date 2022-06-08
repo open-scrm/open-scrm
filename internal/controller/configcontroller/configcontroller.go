@@ -16,11 +16,13 @@ func UpdateTalentInfo(ctx *gin.Context) {
 	}
 
 	if err := service.NewTalentService().SetTalentInfo(ctx.Request.Context(), model.Talent{
-		CorpId:                req.CorpId,
-		AgentId:               req.AgentId,
-		AddressBookSecret:     req.AddressBookSecret,
-		AppSecret:             req.AppSecret,
-		ExternalContactSecret: req.ExternalContactSecret,
+		CorpId:                            req.CorpId,
+		AgentId:                           req.AgentId,
+		AddressBookSecret:                 req.AddressBookSecret,
+		AppSecret:                         req.AppSecret,
+		ExternalContactSecret:             req.ExternalContactSecret,
+		AddressBookCallbackToken:          req.AddressBookCallbackToken,
+		AddressBookCallbackAesEncodingKey: req.AddressBookCallbackAesEncodingKey,
 	}); err != nil {
 		log.WithContext(ctx.Request.Context()).WithError(err).Errorf("更新租户信息失败")
 		vo.SendFail(ctx, "更新租户信息失败")

@@ -48,6 +48,8 @@ func RunHttpServer(ctx context.Context) error {
 		},
 	}
 
+	log.WithContext(ctx).Infof("starting http server at: %v", config.Web.Addr)
+
 	return httpServer.ListenAndServe()
 }
 

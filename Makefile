@@ -22,6 +22,6 @@ build:
 	GOOS=linux GOARCH=amd64 go build -o app cmd/root.go
 
 .PHONY: docker
-docker: build
+docker:
 	docker build -t hub.mrj.com:30080/openscrm/openscrm .
 	docker push hub.mrj.com:30080/openscrm/openscrm:latest
