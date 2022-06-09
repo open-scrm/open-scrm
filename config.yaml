@@ -35,3 +35,20 @@ talent:
   addressBookSecret: 5CJPjplEV9CWnF7J8tOmE4Toxy8xaTJkxKMV7kdqXqo   # 通讯录秘钥
   externalContactSecret:                                           # 外部联系人秘钥
   db: demo                                                         # 分库名字
+
+
+kafka:
+  address:
+    - localhost:9092
+  topics:
+    departmentChangeEvent: departmentChangeEvent
+    userChangeEvent: userChangeEvent
+    tagChangeEvent: tagChangeEvent
+    batchJobResult: batchJobResult
+  groups:
+    departmentChangeEvent:
+      name: departmentChangeEvent
+      partition: 1
+    UserChangeEvent:
+      name: UserChangeEvent
+      partition: 1

@@ -1,0 +1,10 @@
+<xml>
+    <ToUserName><![CDATA[ww48fb21eab5cc8802]]></ToUserName>
+    <FromUserName><![CDATA[sys]]></FromUserName>
+    <CreateTime>1654612061</CreateTime>
+    <MsgType><![CDATA[event]]></MsgType>
+    <Event><![CDATA[change_contact]]></Event>
+    <ChangeType><![CDATA[update_user]]></ChangeType>
+    <UserID><![CDATA[HuaHuaDeSaHaLa]]></UserID>
+    <Alias><![CDATA[aliasa222222asdsd]]></Alias>
+</xml>

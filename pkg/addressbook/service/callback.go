@@ -61,23 +61,36 @@ func (c CallbackService) HandleMessage(ctx context.Context, msg []byte) error {
 		)
 		switch callbackMessage.ChangeType {
 		case changeTypeCreateUser:
-			data = CreateUserMessage{}
+			_data := CreateUserMessage{}
+			err = xml.Unmarshal(msg, &_data)
+			data = _data
 		case changeTypeUpdateUser:
-			data = UpdateUserMessage{}
+			_data := UpdateUserMessage{}
+			err = xml.Unmarshal(msg, &_data)
+			data = _data
 		case changeTypeDeleteUser:
-			data = DeleteUserMessage{}
+			_data := DeleteUserMessage{}
+			err = xml.Unmarshal(msg, &_data)
+			data = _data
 		case changeTypeCreateParty:
-			data = CreateDeptMessage{}
+			_data := CreateDeptMessage{}
+			err = xml.Unmarshal(msg, &_data)
+			data = _data
 		case changeTypeUpdateParty:
-			data = UpdateteDeptMessage{}
+			_data := UpdateteDeptMessage{}
+			err = xml.Unmarshal(msg, &_data)
+			data = _data
 		case changeTypeDeleteParty:
-			data = DeleteDeptMessage{}
+			_data := DeleteDeptMessage{}
+			err = xml.Unmarshal(msg, &_data)
+			data = _data
 		case changeTypeUpdateTag:
-			data = TagChangeMessage{}
+			_data := TagChangeMessage{}
+			err = xml.Unmarshal(msg, &_data)
+			data = _data
 		default:
 			return fmt.Errorf("invalid msg change type: %v", callbackMessage.ChangeType)
 		}
-		err = xml.Unmarshal(msg, &data)
 		if err != nil {
 			return errors.Wrap(err, "接码消息失败")
 		}

@@ -1,13 +1,40 @@
 package main
 
+import (
+	"encoding/xml"
+	"fmt"
+)
+
 func main() {
-	// qsoOW9XFIHWhHCZoriMyJg46P1eMH/WtZrZ5VTO6x2Xw6m/st309Gg2f5MKgWW+qKVlP1zU6cte2R9sXYWJyaua0AIgMMaeaKG7hFzotHpcRE0qqYyr0LqhBCGByIDJbJAYuiHvTzC/JCsZT+Yf4qB6M0+utyz36D6LLkpogr21LrsSVtwfL6WlF8yHiHXqN2PUb/7vdy5wzuswl/799R6TwjeouSCM8/UZd0n1HQo0BkQrkUdnuf5M8z36TbuZV0/5TgVOC1pWMP1OfF67jW2K61IAyHVUZNQ7y5Wjv9ddold7OQPbMAxLTM+6aUNXE2j6EceX/QG8hZxgTbV7b6nZAz7l21CIWV3O1IHPAZsxwoHgrNCQT2AD4dbwPsDnkDWstrYu4UQHg2ROPREI5LQHl0GPXtUq02lGlld4YezKGCb9QJ1LCSyvR0dRsRbvqlTekOiB3OblYUBmsCZ6PNXI24w6MGHRb9E+QPNSL2ti5/dCpd2JphunUe7VydI9WGzIAZEdC5pnQ5tLg6H1dRo4xkPXMnU6HwX0feia+/n8=
-	//crypt := wxwork.NewWXBizMsgCrypt("B61HCDBO4N", "IivlYoyxpK8ErIQzokaV1DlXanTIpndSdL2DxPeZOzR", "ww48fb21eab5cc8802")
-	//crypt.DecryptMsg()
+	var msg = `<xml><ToUserName><![CDATA[ww48fb21eab5cc8802]]></ToUserName><FromUserName><![CDATA[sys]]></FromUserName><CreateTime>1654612061</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[change_contact]]></Event><ChangeType><![CDATA[update_user]]></ChangeType><UserID><![CDATA[HuaHuaDeSaHaLa]]></UserID><Alias><![CDATA[aliasa222222asdsd]]></Alias></xml>`
+	var upd interface{}
+	upd = UpdateUserMessage{}
+	xml.Unmarshal([]byte(msg), &upd)
+	fmt.Println(upd)
 }
 
-/** <xml>
-<ToUserName><![CDATA[ww48fb21eab5cc8802]]></ToUserName>
-<Encrypt><![CDATA[qsoOW9XFIHWhHCZoriMyJg46P1eMH/WtZrZ5VTO6x2Xw6m/st309Gg2f5MKgWW+qKVlP1zU6cte2R9sXYWJyaua0AIgMMaeaKG7hFzotHpcRE0qqYyr0LqhBCGByIDJbJAYuiHvTzC/JCsZT+Yf4qB6M0+utyz36D6LLkpogr21LrsSVtwfL6WlF8yHiHXqN2PUb/7vdy5wzuswl/799R6TwjeouSCM8/UZd0n1HQo0BkQrkUdnuf5M8z36TbuZV0/5TgVOC1pWMP1OfF67jW2K61IAyHVUZNQ7y5Wjv9ddold7OQPbMAxLTM+6aUNXE2j6EceX/QG8hZxgTbV7b6nZAz7l21CIWV3O1IHPAZsxwoHgrNCQT2AD4dbwPsDnkDWstrYu4UQHg2ROPREI5LQHl0GPXtUq02lGlld4YezKGCb9QJ1LCSyvR0dRsRbvqlTekOiB3OblYUBmsCZ6PNXI24w6MGHRb9E+QPNSL2ti5/dCpd2JphunUe7VydI9WGzIAZEdC5pnQ5tLg6H1dRo4xkPXMnU6HwX0feia+/n8=]]></Encrypt>
-<AgentID><![CDATA[]]></AgentID>
-</xml> **/
+type UpdateUserMessage struct {
+	XMLName        xml.Name `xml:"xml" json:"-"`
+	Text           string   `xml:",chardata" json:"-"`
+	ToUserName     string   `xml:"ToUserName" json:"-"`
+	FromUserName   string   `xml:"FromUserName" json:"-"`
+	CreateTime     int64    `json:"createTime" xml:"CreateTime"`
+	MsgType        string   `json:"msgType" xml:"MsgType"`
+	Event          string   `json:"event" xml:"Event"`
+	ChangeType     string   `json:"changeType" xml:"ChangeType"`
+	UserID         string   `json:"userId" xml:"UserID"`
+	NewUserID      string   `json:"newUserId" xml:"NewUserID"`
+	Name           string   `json:"name" xml:"Name"`
+	Department     string   `json:"department" xml:"Department"`
+	MainDepartment string   `json:"mainDepartment" xml:"MainDepartment"`
+	IsLeaderInDept string   `json:"isLeaderInDept" xml:"IsLeaderInDept"`
+	Position       string   `json:"position" xml:"Position"`
+	Mobile         string   `json:"mobile" xml:"Mobile"`
+	Gender         string   `json:"gender" xml:"Gender"`
+	Email          string   `json:"email" xml:"Email"`
+	Status         string   `json:"status" xml:"Status"`
+	Avatar         string   `json:"avatar" xml:"Avatar"`
+	Alias          string   `json:"alias" xml:"Alias"`
+	Telephone      string   `json:"telephone" xml:"Telephone"`
+	Address        string   `json:"address" xml:"Address"`
+}

@@ -41,7 +41,7 @@ type MongoConfig struct {
 }
 
 type KafkaConfig struct {
-	Address string `json:"address" yaml:"address"`
+	Address []string `json:"address" yaml:"address"`
 	Topics  struct {
 		DepartmentChangeEvent string `json:"departmentChangeEvent" yaml:"departmentChangeEvent"` // 部门变更事件
 		UserChangeEvent       string `json:"userChangeEvent" yaml:"userChangeEvent"`             // 员工变更事件
