@@ -1,11 +1,17 @@
-package vo
+package response
 
 import "github.com/gin-gonic/gin"
 
 type Response struct {
-	Data    interface{}
-	Code    int    `json:"code"`
-	Message string `json:"message"`
+	Data    interface{} `json:"data"`
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
+	Stack   interface{} `json:"stack"`
+}
+
+type List struct {
+	Data  interface{} `json:"data"`
+	Count interface{} `json:"count"`
 }
 
 func SendOK(ctx *gin.Context, data ...interface{}) {
@@ -28,8 +34,16 @@ func SendFail(ctx *gin.Context, msg string) {
 }
 
 func SendError(ctx *gin.Context, err error) {
-	ctx.JSON(500, &Response{
+	var res = Response{
 		Code:    500,
 		Message: err.Error(), // TODO:: 自定义error
-	})
+	}
+	if e, ok := err.(*Error); ok {
+		res.Code = e.code
+		res.Message = e.msg
+		if gin.IsDebugging() {
+			res.Stack = e
+		}
+	}
+	ctx.JSON(500, res)
 }

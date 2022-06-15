@@ -23,6 +23,12 @@ mongo:
   poolSize: 10
   maxPoolSize: 100
 
+superAdmin:
+  - id: '1'
+    nickname: 超级管理员
+    username: admin
+    password: admin
+
 
 
 #############################       以下是租户配置      #################################################

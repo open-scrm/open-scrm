@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"github.com/go-redis/redis/v8"
 	"github.com/open-scrm/open-scrm/internal/global"
-	"github.com/open-scrm/open-scrm/internal/vo"
 	"github.com/open-scrm/open-scrm/lib/log"
+	"github.com/open-scrm/open-scrm/pkg/response"
 	"github.com/open-scrm/open-scrm/pkg/system/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -31,7 +31,7 @@ func (t *TalentService) GetTalentInfo(ctx context.Context) (model.Talent, error)
 			var res model.Talent
 			if err := model.GetTalentColl(ctx).FindOne(ctx, bson.M{"_id": defaultTalentId}).Decode(&res); err != nil {
 				if err == mongo.ErrNoDocuments {
-					return model.Talent{}, vo.NewError(ctx, "租户配置信息不存在")
+					return model.Talent{}, response.NewError(ctx, "租户配置信息不存在")
 				}
 				return model.Talent{}, err
 			}

@@ -9,18 +9,20 @@ import (
 var config *Config
 
 type Config struct {
-	LogLevel logrus.Level `yaml:"logLevel"` // 5=debug 4=info 3=warn
-	Web      WebConfig    `yaml:"web"`
-	Redis    RedisConfig  `yaml:"redis"`
-	Mongo    MongoConfig  `yaml:"mongo"`
-	Kafka    KafkaConfig  `yaml:"kafka"`
+	LogLevel   logrus.Level  `yaml:"logLevel"` // 5=debug 4=info 3=warn
+	Web        WebConfig     `yaml:"web"`
+	Redis      RedisConfig   `yaml:"redis"`
+	Mongo      MongoConfig   `yaml:"mongo"`
+	Kafka      KafkaConfig   `yaml:"kafka"`
+	SuperAdmin []AdminConfig `yaml:"superAdmin"`
 }
 
 type WebConfig struct {
-	Addr   string `json:"addr" yaml:"addr"`
-	View   string `yaml:"view"`
-	Static string `yaml:"static"`
-	Domain string `yaml:"domain"`
+	Addr          string `json:"addr" yaml:"addr"`
+	View          string `yaml:"view"`
+	Static        string `yaml:"static"`
+	Domain        string `yaml:"domain"`
+	SessionExpire int    `yaml:"sessionExpire"`
 }
 
 type RedisConfig struct {
@@ -57,6 +59,14 @@ type KafkaConfig struct {
 type KafkaGroup struct {
 	Name      string `json:"name" yaml:"name"`
 	Partition int    `json:"partition" yaml:"partition"`
+}
+
+type AdminConfig struct {
+	Id       string `json:"id" yaml:"id"`
+	Username string `json:"username" yaml:"username"`
+	Password string `json:"password" yaml:"password"`
+	Avatar   string `json:"avatar" yaml:"avatar"`
+	Nickname string `json:"nickname" yaml:"nickname"`
 }
 
 var lock sync.RWMutex

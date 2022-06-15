@@ -61,7 +61,8 @@ data:
       poolSize: 10
       maxPoolSize: 100
     kafka:
-      address: kafka.kafka:9092
+      address: 
+        - kafka.kafka:9092
       topics:
         departmentChangeEvent: departmentChangeEvent
         userChangeEvent: userChangeEvent

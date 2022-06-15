@@ -1,0 +1,38 @@
+###
+
+# curl 'http://localhost:8000/api/v1/auth/info'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Accept-Language: zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-HK;q=0.6'
+#  -H 'Authorization: ee7ffbef-b983-48aa-bf11-b80a9973545c'
+#  -H 'Cache-Control: no-cache'
+#  -H 'Connection: keep-alive'
+#  -H 'Cookie: __gads=ID=29875e4c3f89f8c8-2227520d70d2007b:T=1650892840:RT=1650892840:S=ALNI_Mbi3gudLkfmcsDix9O7sB8Cj6v-Sg; _ga=GA1.1.1806073695.1650892838; Hm_lvt_79b8ff82974d0769ef5c629e4cd46629=1651293487; UM_distinctid=18078ecab54184-00c6ba98426801-6b3e555b-1fa400-18078ecab5558f; CNZZDATA1280419357=104708470-1651294226-%7C1651294226; ph_phc_YbILrRYZIl1t07oBWTdspsTkGUFCVebFGrvfMxtkdU4_posthog=%7B%22distinct_id%22%3A%2218078ecb87f696-0f4be7872a24b8-6b3e555b-1fa400-18078ecb880611%22%2C%22%24device_id%22%3A%2218078ecb87f696-0f4be7872a24b8-6b3e555b-1fa400-18078ecb880611%22%2C%22%24initial_referrer%22%3A%22%24direct%22%2C%22%24initial_referring_domain%22%3A%22%24direct%22%2C%22%24referrer%22%3A%22http%3A%2F%2Flocalhost%3A8080%2Fdetail%2F1.html%22%2C%22%24referring_domain%22%3A%22localhost%3A8080%22%2C%22%24sesid%22%3A%5B1651387171655%2C%221807e45c4a8e36-09f52ed4ae9ad6-6b3e555b-1fa400-1807e45c4a9990%22%5D%2C%22%24session_recording_enabled_server_side%22%3Atrue%2C%22%24active_feature_flags%22%3A%5B%5D%2C%22%24enabled_feature_flags%22%3A%7B%7D%7D; CNZZDATA1280059216=916225960-1651375469-%7C1652096810; _ga_NGY93CNPH2=GS1.1.1652104486.4.1.1652105294.0; Goland-bfc71dff=8bc1f4b8-11ee-4777-ae52-417687545575'
+#  -H 'Pragma: no-cache'
+#  -H 'Referer: http://localhost:8000/'
+#  -H 'Sec-Fetch-Dest: empty'
+#  -H 'Sec-Fetch-Mode: cors'
+#  -H 'Sec-Fetch-Site: same-origin'
+#  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
+#  -H 'sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="102", "Google Chrome";v="102"'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'sec-ch-ua-platform: "Windows"'
+#  --compressed
+GET http://localhost:8000/api/v1/auth/info
+Accept: application/json, text/plain, */*
+Accept-Language: zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-HK;q=0.6
+Authorization: ee7ffbef-b983-48aa-bf11-b80a9973545c
+Cache-Control: no-cache
+Connection: keep-alive
+Cookie: __gads=ID=29875e4c3f89f8c8-2227520d70d2007b:T=1650892840:RT=1650892840:S=ALNI_Mbi3gudLkfmcsDix9O7sB8Cj6v-Sg; _ga=GA1.1.1806073695.1650892838; Hm_lvt_79b8ff82974d0769ef5c629e4cd46629=1651293487; UM_distinctid=18078ecab54184-00c6ba98426801-6b3e555b-1fa400-18078ecab5558f; CNZZDATA1280419357=104708470-1651294226-%7C1651294226; ph_phc_YbILrRYZIl1t07oBWTdspsTkGUFCVebFGrvfMxtkdU4_posthog=%7B%22distinct_id%22%3A%2218078ecb87f696-0f4be7872a24b8-6b3e555b-1fa400-18078ecb880611%22%2C%22%24device_id%22%3A%2218078ecb87f696-0f4be7872a24b8-6b3e555b-1fa400-18078ecb880611%22%2C%22%24initial_referrer%22%3A%22%24direct%22%2C%22%24initial_referring_domain%22%3A%22%24direct%22%2C%22%24referrer%22%3A%22http%3A%2F%2Flocalhost%3A8080%2Fdetail%2F1.html%22%2C%22%24referring_domain%22%3A%22localhost%3A8080%22%2C%22%24sesid%22%3A%5B1651387171655%2C%221807e45c4a8e36-09f52ed4ae9ad6-6b3e555b-1fa400-1807e45c4a9990%22%5D%2C%22%24session_recording_enabled_server_side%22%3Atrue%2C%22%24active_feature_flags%22%3A%5B%5D%2C%22%24enabled_feature_flags%22%3A%7B%7D%7D; CNZZDATA1280059216=916225960-1651375469-%7C1652096810; _ga_NGY93CNPH2=GS1.1.1652104486.4.1.1652105294.0; Goland-bfc71dff=8bc1f4b8-11ee-4777-ae52-417687545575
+Pragma: no-cache
+Referer: http://localhost:8000/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36
+sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="102", "Google Chrome";v="102"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+
+###
+

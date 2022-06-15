@@ -2,12 +2,14 @@ package internal
 
 import (
 	"context"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/open-scrm/open-scrm/configs"
 	"github.com/open-scrm/open-scrm/internal/controller/addressbook"
 	"github.com/open-scrm/open-scrm/internal/controller/callbaclcontroller"
 	"github.com/open-scrm/open-scrm/internal/controller/configcontroller"
 	"github.com/open-scrm/open-scrm/lib/log"
+	"github.com/open-scrm/open-scrm/lib/session"
 	"net"
 	"net/http"
 )
@@ -22,14 +24,23 @@ func RunHttpServer(ctx context.Context) error {
 
 	g := gin.New()
 	g.Use(gin.Recovery())
+
+	conf := cors.DefaultConfig()
+	conf.AllowAllOrigins = true
+	conf.AllowHeaders = []string{"*"}
+	g.Use(cors.New(conf))
+
 	g.Use(log.Trace())
 	g.Use(log.Logger())
 
-	api := g.Group("/api/v1")
+	authRouter(g)
+
+	api := g.Group("/api/v1", session.Auth())
 	{
 		{
 			addressBook := api.Group("/addressbook")
 			addressBook.POST("/sync", addressbook.SyncCorpStructure)
+			addressBook.POST("/dept/list", addressbook.DepartmentList)
 		}
 
 		{
