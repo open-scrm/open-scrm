@@ -17,6 +17,14 @@ func (r *ListReq) SetDefault() {
 	}
 }
 
+// AddressBookListDeptRequest 查询所有的分组并返回树形结构
 type AddressBookListDeptRequest struct {
 	*ListReq
+}
+
+func (r *AddressBookListDeptRequest) Validate() error {
+	r.SetDefault()
+	r.Page = 0
+	r.PageSize = 0
+	return nil
 }

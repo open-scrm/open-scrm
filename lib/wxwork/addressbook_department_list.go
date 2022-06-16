@@ -13,8 +13,8 @@ type DepartmentListResponse struct {
 		Name             string   `json:"name"`
 		NameEn           string   `json:"name_en"`
 		DepartmentLeader []string `json:"department_leader"`
-		Parentid         int      `json:"parentid"`
-		Order            int      `json:"order"`
+		Parentid         uint32   `json:"parentid"`
+		Order            uint32   `json:"order"`
 	} `json:"department"`
 }
 

@@ -45,14 +45,15 @@ func DepartmentList(ctx *gin.Context) {
 		response.SendFail(ctx, "参数错误")
 		return
 	}
-	res, count, err := service.NewDeptService().ListDepartments(ctx, nil, req.ListReq)
+	if err := req.Validate(); err != nil {
+		response.SendError(ctx, err)
+		return
+	}
+	res, err := service.NewDeptService().ListDepartmentTree(ctx, nil, req.ListReq)
 	if err != nil {
 		log.WithContext(ctx.Request.Context()).WithError(err).Errorf("DepartmentList 查询列表失败")
 		response.SendError(ctx, err)
 		return
 	}
-	response.SendOK(ctx, response.List{
-		Data:  res,
-		Count: count,
-	})
+	response.SendOK(ctx, res)
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/open-scrm/open-scrm/internal/vo"
 	"github.com/open-scrm/open-scrm/lib/log"
 	"github.com/open-scrm/open-scrm/lib/mongo"
+	"github.com/open-scrm/open-scrm/pkg/addressbook/mapper"
 	"github.com/open-scrm/open-scrm/pkg/addressbook/model"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -15,10 +16,37 @@ func NewDeptService() *DeptService {
 	return &DeptService{}
 }
 
+// ListDepartmentTree 获取部门列表
+// deptIds: 表示获取该级分类下的所有数据. 返回树形结构.
+func (s *DeptService) ListDepartmentTree(ctx context.Context, deptIds []uint32, listReq *vo.ListReq) (*mapper.DepartmentTree, error) {
+	res, _, err := s.ListDepartments(ctx, deptIds, listReq)
+	if err != nil {
+		return nil, err
+	}
+	return toTree(res, model.RootDeptId), nil
+}
+
+func toTree(data []*model.Department, pid uint32) *mapper.DepartmentTree {
+	t := &mapper.DepartmentTree{
+		Department: nil,
+		Children:   nil,
+	}
+	for _, d := range data {
+		if d.Id == pid {
+			t.Department = d
+		} else {
+			if d.ParentId == pid {
+				t.Children = append(t.Children, toTree(data, d.Id))
+			}
+		}
+	}
+	return t
+}
+
 // ListDepartments 获取部门列表
 // deptIds: 表示获取该级分类下的所有数据.
 // 报表数据走MySQL
-func (s *DeptService) ListDepartments(ctx context.Context, deptIds []uint32, listReq *vo.ListReq) ([]model.Department, int64, error) {
+func (s *DeptService) ListDepartments(ctx context.Context, deptIds []uint32, listReq *vo.ListReq) ([]*model.Department, int64, error) {
 	q := bson.M{}
 	if len(deptIds) != 0 {
 		q["_id"] = bson.M{
@@ -30,7 +58,7 @@ func (s *DeptService) ListDepartments(ctx context.Context, deptIds []uint32, lis
 		q["name"] = mongo.Like(listReq.Keyword)
 	}
 
-	var res []model.Department
+	var res []*model.Department
 	var count, err = mongo.List(ctx,
 		model.GetDepartmentColl(ctx),
 		mongo.ListParam{

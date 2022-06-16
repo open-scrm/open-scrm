@@ -7,11 +7,15 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+const (
+	RootDeptId = 1
+)
+
 type Department struct {
 	Name     string `json:"name" bson:"name"`
 	NameEn   string `json:"nameEn" bson:"nameEn"`
-	ParentId int    `json:"parentId" bson:"parentId"`
-	Order    int    `json:"order" bson:"order"`
+	ParentId uint32 `json:"parentId" bson:"parentId"`
+	Order    uint32 `json:"order" bson:"order"`
 	Id       uint32 `json:"id" bson:"_id"`
 }
 
