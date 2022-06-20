@@ -75,6 +75,13 @@ data:
         UserChangeEvent: 
           name: UserChangeEvent
           partition: 1
+    superAdmin:
+    - id: '1'
+      nickname: 超级管理员
+      username: admin
+      password: admin      
+    
+
 ---
 apiVersion: v1
 kind: Service

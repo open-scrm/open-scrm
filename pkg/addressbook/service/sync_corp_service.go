@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/open-scrm/open-scrm/internal/global"
 	"github.com/open-scrm/open-scrm/lib/log"
+	"github.com/open-scrm/open-scrm/lib/utils"
 	"github.com/open-scrm/open-scrm/lib/wxwork"
 	"github.com/open-scrm/open-scrm/pkg/addressbook/model"
 	"github.com/open-scrm/open-scrm/pkg/system/service"
@@ -147,8 +148,9 @@ func (s *SyncCorpStructureService) syncUsers(ctx context.Context) error {
 				"externalPosition": resp.ExternalPosition,
 			},
 			"$setOnInsert": bson.M{
-				"_id":    global.GetSnowflakeNode().Generate(),
-				"userid": resp.Userid,
+				"_id":        global.GetSnowflakeNode().Generate(),
+				"userid":     resp.Userid,
+				"createTime": utils.GetNow(),
 			},
 		})
 		writeModels = append(writeModels, m)

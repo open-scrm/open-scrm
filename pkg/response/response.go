@@ -47,3 +47,9 @@ func SendError(ctx *gin.Context, err error) {
 	}
 	ctx.JSON(500, res)
 }
+
+func NewResponse(data interface{}) *Response {
+	return &Response{
+		Data: data,
+	}
+}

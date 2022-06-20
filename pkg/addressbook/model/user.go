@@ -8,6 +8,7 @@ import (
 )
 
 type User struct {
+	Id               int64    `json:"id" bson:"_id"`
 	Userid           string   `json:"userid" bson:"userid"`
 	Name             string   `json:"name" bson:"name"`
 	Department       []uint32 `json:"department" bson:"department"`
@@ -28,6 +29,7 @@ type User struct {
 	Status           int      `json:"status" bson:"status"`
 	QrCode           string   `json:"qrCode" bson:"qrCode"`
 	ExternalPosition string   `json:"externalPosition" bson:"externalPosition"`
+	CreateTime       string   `json:"createTime" bson:"createTime"`
 }
 
 func GetUserColl(ctx context.Context) *mongo.Collection {

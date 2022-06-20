@@ -5,8 +5,8 @@ import (
 )
 
 type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username" description:"账号，开发环境是 admin" required:"true"`
+	Password string `json:"password" description:"密码: 开发环境是 admin" required:"true"`
 }
 
 func (r *LoginRequest) Validate() error {

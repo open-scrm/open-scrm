@@ -49,7 +49,7 @@ func DepartmentList(ctx *gin.Context) {
 		response.SendError(ctx, err)
 		return
 	}
-	res, err := service.NewDeptService().ListDepartmentTree(ctx, nil, req.ListReq)
+	res, err := service.NewDeptService().ListDepartmentTree(ctx, nil, req.Name)
 	if err != nil {
 		log.WithContext(ctx.Request.Context()).WithError(err).Errorf("DepartmentList 查询列表失败")
 		response.SendError(ctx, err)

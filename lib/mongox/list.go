@@ -1,38 +1,20 @@
-package mongo
+package mongox
 
 import (
 	"context"
-	"github.com/open-scrm/open-scrm/internal/vo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"regexp"
 )
 
 type ListParam struct {
-	ListRequest *vo.ListReq
-	Query       bson.M
+	Query bson.M
 }
 
 func List(ctx context.Context, coll *mongo.Collection, param ListParam, res interface{}) (int64, error) {
 	cn, err := coll.CountDocuments(ctx, param.Query)
 	if err != nil {
 		return 0, err
-	}
-	var opt = options.Find()
-	if param.ListRequest.Page > 0 && param.ListRequest.PageSize > 0 {
-		opt = opt.SetLimit(param.ListRequest.PageSize).SetSkip((param.ListRequest.Page - 1) * param.ListRequest.PageSize)
-	}
-	if len(param.ListRequest.Order) != 0 {
-		o := bson.M{
-			param.ListRequest.Order: 1,
-		}
-		if !param.ListRequest.Asc {
-			o = bson.M{
-				param.ListRequest.Order: -1,
-			}
-		}
-		opt = opt.SetSort(o)
 	}
 	cursor, err := coll.Find(ctx, param.Query)
 	if err != nil {
