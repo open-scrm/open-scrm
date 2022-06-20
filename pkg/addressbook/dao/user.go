@@ -17,12 +17,12 @@ func NewUserDao(ctx context.Context) *UserDao {
 }
 
 func (UserDao) orderBy(orderBy string, asc bool) bson.M {
-	sort := 1
+	sort := -1
 	if asc {
-		sort = -1
+		sort = 1
 	}
 	switch orderBy {
-	case "name", "status", "createTime":
+	case "name", "status", "createTime", "_id":
 	default:
 		orderBy = "_id"
 	}
@@ -56,4 +56,21 @@ func (d *UserDao) BasicList(ctx context.Context, deptId []uint32, nameLike strin
 		return nil, 0, err
 	}
 	return out, count, nil
+}
+
+func (d *UserDao) ScrollList(ctx context.Context, lastId int64, size int64) ([]*model.User, error) {
+	query := bson.M{}
+	if lastId != 0 {
+		query["_id"] = bson.M{
+			"$gt": lastId,
+		}
+	}
+
+	var out []*model.User
+	opt := options.Find().SetLimit(size).SetSort(d.orderBy("_id", true))
+	err := d.Find(ctx, query, &out, opt)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/open-scrm/open-scrm/internal/controller/addressbook"
 	"github.com/open-scrm/open-scrm/internal/controller/callbaclcontroller"
 	"github.com/open-scrm/open-scrm/internal/controller/configcontroller"
+	"github.com/open-scrm/open-scrm/internal/controller/customer"
 	"github.com/open-scrm/open-scrm/internal/vo"
 	"github.com/open-scrm/open-scrm/lib/log"
 	"github.com/open-scrm/open-scrm/lib/session"
@@ -62,6 +63,12 @@ func RunHttpServer(ctx context.Context) error {
 
 			addressBook.POST("/user/list", addressbook.UserList)
 			addressBookDocGroup.Post("/user/list").Body(new(vo.UserListRequest)).JSON(new(addressbook2.UserListResponse)).Description("获取员工列表")
+		}
+		{
+			customerRouter := api.Group("/customer", session.Auth())
+			{
+				customerRouter.POST("/syncall", customer.SyncAll)
+			}
 		}
 
 		{

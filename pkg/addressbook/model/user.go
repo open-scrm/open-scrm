@@ -32,6 +32,13 @@ type User struct {
 	CreateTime       string   `json:"createTime" bson:"createTime"`
 }
 
+type SimpleUser struct {
+	Id         int64    `json:"id" bson:"_id"`
+	Userid     string   `json:"userid" bson:"userid"`
+	Name       string   `json:"name" bson:"name"`
+	Department []uint32 `json:"department" bson:"department"`
+}
+
 func GetUserColl(ctx context.Context) *mongo.Collection {
 	return global.GetMongoDriver().Database(configs.Get().Mongo.Database).Collection("user")
 }
