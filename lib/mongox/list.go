@@ -40,3 +40,7 @@ func EscapeText(text string) string {
 func Like(value string) bson.M {
 	return bson.M{"$regex": EscapeText(value), "$options": "i"}
 }
+
+func In(slice interface{}) bson.M {
+	return bson.M{"$in": slice}
+}

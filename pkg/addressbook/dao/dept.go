@@ -8,11 +8,11 @@ import (
 )
 
 type DeptDao struct {
-	*mongox.Utilx
+	*mongox.MongoX
 }
 
 func NewDeptDao(ctx context.Context) *DeptDao {
-	return &DeptDao{Utilx: mongox.New(model.GetDepartmentColl(ctx))}
+	return &DeptDao{MongoX: mongox.New(model.GetDepartmentColl(ctx))}
 }
 
 func (d *DeptDao) List(ctx context.Context, ids []uint32, name string) ([]*model.Department, error) {

@@ -2,30 +2,45 @@ package mongox
 
 import (
 	"context"
+	"github.com/open-scrm/open-scrm/lib/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Utilx struct {
+type MongoX struct {
 	dao *mongo.Collection
 }
 
-func New(dao *mongo.Collection) *Utilx {
-	return &Utilx{dao: dao}
+func New(dao *mongo.Collection) *MongoX {
+	return &MongoX{dao: dao}
 }
 
-func (d *Utilx) Coll() *mongo.Collection {
+func (d *MongoX) Coll() *mongo.Collection {
 	return d.dao
 }
 
-func (d *Utilx) FindAndCount(ctx context.Context, query bson.M, options *options.FindOptions, out interface{}) (int64, error) {
+func (MongoX) orderBy(orderBy string, asc bool) bson.M {
+	sort := -1
+	if asc {
+		sort = 1
+	}
+	if orderBy == "" {
+		orderBy = "_id"
+	}
+	return bson.M{
+		orderBy: sort,
+	}
+}
+
+func (d *MongoX) FindAndCount(ctx context.Context, query bson.M, pageUtil utils.PageUtil, out interface{}) (int64, error) {
 	cn, err := d.Coll().CountDocuments(ctx, query)
 	if err != nil {
 		return 0, err
 	}
 
-	cursor, err := d.Coll().Find(ctx, query, options)
+	opt := options.Find().SetLimit(pageUtil.PageSize).SetSkip((pageUtil.Page - 1) * pageUtil.PageSize).SetSort(d.orderBy(pageUtil.OrderBy, pageUtil.Asc))
+	cursor, err := d.Coll().Find(ctx, query, opt)
 	if err != nil {
 		return 0, err
 	}
@@ -40,7 +55,7 @@ func (d *Utilx) FindAndCount(ctx context.Context, query bson.M, options *options
 	return cn, nil
 }
 
-func (d *Utilx) Find(ctx context.Context, query bson.M, out interface{}, options ...*options.FindOptions) error {
+func (d *MongoX) Find(ctx context.Context, query bson.M, out interface{}, options ...*options.FindOptions) error {
 	cursor, err := d.Coll().Find(ctx, query, options...)
 	if err != nil {
 		return err

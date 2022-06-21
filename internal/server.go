@@ -59,7 +59,7 @@ func RunHttpServer(ctx context.Context) error {
 			addressBookDocGroup.Post("/sync").Body(struct{}{}).Description("同步组织架构,从企微员工部门信息")
 
 			addressBook.POST("/dept/list", addressbook.DepartmentList)
-			addressBookDocGroup.Post("/dept/list").Body(new(vo.ListReq)).JSON(new(mapper.DepartmentTree)).Description("获取部门树形结构")
+			addressBookDocGroup.Post("/dept/list").Body(new(vo.AddressBookListDeptRequest)).JSON(new(mapper.DepartmentTree)).Description("获取部门树形结构")
 
 			addressBook.POST("/user/list", addressbook.UserList)
 			addressBookDocGroup.Post("/user/list").Body(new(vo.UserListRequest)).JSON(new(addressbook2.UserListResponse)).Description("获取员工列表")
@@ -68,6 +68,7 @@ func RunHttpServer(ctx context.Context) error {
 			customerRouter := api.Group("/customer", session.Auth())
 			{
 				customerRouter.POST("/syncall", customer.SyncAll)
+				customerRouter.POST("/list", customer.ListCustomer)
 			}
 		}
 

@@ -101,3 +101,7 @@ func SetDefaultLogger(logger *logrus.Logger) {
 func WithContext(ctx context.Context) *logrus.Entry {
 	return defaultLogger.WithContext(ctx)
 }
+
+func ErrCtx(ctx context.Context, err error) *logrus.Entry {
+	return defaultLogger.WithContext(ctx).WithError(err)
+}

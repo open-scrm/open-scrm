@@ -49,7 +49,7 @@ type ExternalFollowInfo struct {
 	Userid         string   `json:"userid"`
 	Remark         string   `json:"remark"`
 	Description    string   `json:"description"`
-	Createtime     int      `json:"createtime"`
+	Createtime     int64    `json:"createtime"`
 	TagId          []string `json:"tag_id"`
 	RemarkCorpName string   `json:"remark_corp_name,omitempty"`
 	RemarkMobiles  []string `json:"remark_mobiles,omitempty"`

@@ -16,7 +16,7 @@ func NewUserService() *UserService {
 }
 
 func (s *UserService) ListUsers(ctx context.Context, req *vo.UserListRequest) (*addressbook.UserListResponse, error) {
-	users, count, err := dao.NewUserDao(ctx).BasicList(ctx, req.DeptIds, req.Keyword, req.Page, req.PageSize, req.Order, req.Asc)
+	users, count, err := dao.NewUserDao(ctx).BasicList(ctx, req.DeptIds, req.Keyword, req.PageUtil)
 	if err != nil {
 		log.WithContext(ctx).WithError(err).Errorf("ListUsers错误: %v", req)
 		return nil, err
